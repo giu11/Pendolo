@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="//jsxgraph.org/distrib/jsxgraph.css" />
+<script type="text/javascript" src="//jsxgraph.org/distrib/jsxgraphcore.js"></script>
+<div id="box" class="jxgbox" style="width:200px; height:200px;"></div>
+<script>var board = JXG.JSXGraph.initBoard('box', {boundingbox:[-5,8,8,-5], axis:true});
+
+    // Macro function plotter
+    function addCurve(board, func, atts) {
+        var f = board.create('functiongraph', [func], atts);
+        return f;
+    }
+            
+    // Simplified plotting of function
+    function plot(func, atts) {
+       if (atts==null) {
+          return addCurve(board, func, {strokewidth:2});
+       } else {
+          return addCurve(board, func, atts);
+       }    
+    }
+    
+    // Free point
+    var p = board.create('point', [1,1], {style:6, name:'p'}); 
+    
+    // Usage of the macro
+    function doIt() {
+        eval(document.getElementById('input').value); 
+    }
+    
+    function clearAll(board) {
+        JXG.JSXGraph.freeBoard(board);
+        board = JXG.JSXGraph.initBoard('box', {boundingbox:[-5,8,8,-5], axis:true});
+        p = board.create('point', [3,-4], {style:6, name:'p'}); 
+        return board;
+    }</script>
+    <script>
+        //stop=1  se non avviato =0 se avviato
+      //Ogni volta che viene richiamata questa funzione sarà
+      //passato 1 decimo di secondo, perciò vengono incrementati
+      //i decimi di 1, quando si arriva a 10 si azzerano e si
+      //aumentano di 1 i secondi. E così via..
+      //Quando i secondi arrivano a 60 si azzerano e
+      //si incrementano di 1 i minuti  e via dicendo fino alle ore.
+      // Ai bottoni sono state assegnte le funzioni del javascript
+      var ore=0;
+      var minuti=0;
+      var secondi=0;
+      var decimi=0;
+      var visualizzazione="";
+      var stop=1; //0=attivo 1=fermo
+      var len=0;
+      var t = 0;
+      var g = 9.8;
+      var pi = 3.14;
+      var radice = 0;
+      var scritta = 0;
+      function avvia()
+      {
+      if (stop==1)
+      {
+      stop=0;
+      cronometro();
+      }
+      }
+      
+      function cronometro()
+      {
+      if (stop==0) {
+      decimi+=1;
+      if (decimi>9) {decimi=0;secondi+=1;}
+      if (secondi>59) {secondi=0;minuti+=1;}
+      if (minuti>59) {minuti=0;ore+=1;}
+      
+      if (ore<10) {visualizzazione="0" + ore;} else {visualizzazione=ore;}
+      if (minuti<10) {visualizzazione=visualizzazione + ":0" + minuti;} else {visualizzazione=visualizzazione + ":" + minuti;}
+      if (secondi<10) {visualizzazione=visualizzazione + ":0" + secondi;} else {visualizzazione=visualizzazione + ":" + secondi;}
+      visualizzazione=visualizzazione + ":" + decimi;
+      
+      tempo=document.getElementById("mostra_cronometro").value=visualizzazione;
+      setTimeout("cronometro()", 100);
+      }
+      }
+      
+      
+      function ferma()
+      {
+      stop=1;
+      }
+      
+      function azzera()
+      {
+      if (stop==1)
+      {
+      ore=0;
+      minuti=0;
+      secondi=0;
+      decimi=0;
+      
+      a=document.getElementById("mostra_cronometro").value="00:00:00:0";
+      }
+      }
+      function periodo(){
+         len = document.getElementById('lunghezza').value;
+         t = ((2*pi)*(Math.sqrt(len / g))).toPrecision(5)
+         scritta = document.getElementById("risultato").innerHTML = "Il periodo del pendolo è " + " " +  t + " " +"s";
+      }
+      
+      </script>
+      <style>
+          body{
+  background-color: #ed870b;
+}
+#logo{
+  position: relative;
+  left: 220px;
+  bottom: 330px;
+  width: 100px;
+  height: 100px;
+}
+#title{
+    position: relative;
+    bottom: 230px;
+}
+#lunghezza{
+  position: relative;
+  left: 10px;
+  bottom: 100px;
+}
+#algebrico{
+  position: relative;
+  bottom: 200px;
+  left: 10px;;
+}
+#calcola{
+  position: relative;
+  bottom: 100px;
+  left: 10px;
+  border-radius: 100%;
+  background-color: #003366;
+  color: white;
+
+}
+#sopra{
+  position: relative;
+  bottom: 350px;
+}
+#cronometro{
+  position: relative;
+  bottom: 70px;
+}
+#calcolo{
+  position: relative;
+  bottom: 80px;
+}
+#risultato{
+  position: relative;
+  bottom: 150px;
+}
+#box{
+  position: relative;
+  top: 540px;
+  left: 700px;
+}
+#funzione{
+  position:relative ;
+  left: 700px;
+  bottom: 70px;
+}
+      </style>
+</head>
+<body>
+    <h1 id="title">Il pendolo</h1>
+  <img  id= "logo" src="https://www.movimentidanzesacre.it/wp-content/uploads/2019/01/Legge-del-Pendolo-Maurice-Nicoll-Lavoro-Consapevolezza-Lato-Oscuro-Circolo-della-vita-e1547050013342.jpg" alt="">
+  
+  <div id="sopra">
+     <p id="ist">Istruzioni per l'esperimento </p>
+     <ul id="lista">
+      <li>Carica lo sketch e apri il plotter seriale di Arduino</li>
+      <li>Usa il cronometro per calcolare il periodo seguendo le <a href="" id="link">indicazioni</a></li>
+      <li>Inserisci le grandezze richieste </li>
+     </ul>
+     </div>
+  <div id="cronometro"><input id="mostra_cronometro" style="text-align:center;" value="00:00:00:0" disabled="disabled" />
+  <button onclick="javascript:avvia();">Avvia il cronometro!</button>&nbsp;<button onclick="javascript:ferma();" />STOP!</button>&nbsp;<button onclick="javascript:azzera();" />Azzera!</button><br><br></div>
+  <h2 id="algebrico">Periodo algebrico</h2>
+  <div id="calcolo"><input type="number" id="lunghezza" placeholder="Inserisci la lunghezza">
+  <button id="calcola" onclick="javascript:periodo();">Calcola</button></div>
+  <p id="risultato"></p>
+  <div id="funzione">
+    <form><textarea id="input" rows=7 cols=35 wrap="off" >
+        function f(x) {
+           return Math.cos(x)*p.Y();
+        }
+        c = plot(f);
+        // Derivative:
+        g = JXG.Math.Numerics.D(f);
+        plot(g,{strokecolor:'black', dash:1});
+        </textarea> <br>
+        <input type="button" value="plot" onClick="doIt()"> 
+        <input type="button" value="clear all" onClick="board=clearAll(board)"> 
+        </form>
+    </div>
+    
+</body>
+</html>
