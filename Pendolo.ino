@@ -20,7 +20,3 @@ void loop() {
   Serial.println(d);
   delay(50);
 }
-// Per verificare il periodo del pendolo 
-// Acceleraziione con app phyphox
-//Periodo al variare della lunguezza e della massa 
-// PRovare a cambiare l'angolo con il servo motore con due motori 
